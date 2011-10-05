@@ -1,10 +1,9 @@
 <?php
 
-namespace Prado\Rackspace\DNS;
+namespace Prado\Rackspace\DNS\Http;
 
-use Prado\Rackspace\Http\AuthInterface;
-use Prado\Rackspace\Storage\Storable;
-use Prado\Rackspace\Storage\StorageInterface;
+use Prado\Rackspace\DNS\Storage\Storable;
+use Prado\Rackspace\DNS\Storage\StorageInterface;
 use Zend\Http\Headers;
 use Zend\Http\Client as ZendClient;
 use Zend\Http\Request as ZendRequest;

@@ -3,14 +3,14 @@
 namespace Prado\Rackspace\DNS\EntityManager;
 
 use BadMethodCallException;
-use Prado\Rackspace\Http\Client;
+use Prado\Rackspace\DNS\Http\Client;
 use Prado\Rackspace\DNS\Entity\AsynchResponse;
 use Prado\Rackspace\DNS\Hydrator;
 use Prado\Rackspace\DNS\UriGenerator;
 use Prado\Rackspace\DNS\Model\Entity;
 use Prado\Rackspace\DNS\Model\EntityManager;
 
-class AsynchResponseEntityManager implements EntityManager
+class AsynchResponseManager implements EntityManager
 {
     /**
      * @var Prado\Rackspace\Http\Client

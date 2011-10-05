@@ -10,6 +10,8 @@ interface EntityManager
     
     public function update(Entity $entity);
     
+    public function refresh(Entity $entity);
+    
     public function find($id);
     
     public function createList();

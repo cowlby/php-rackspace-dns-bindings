@@ -1,6 +1,6 @@
 <?php
 
-namespace Prado\Rackspace\DNSBundle\EntityManager;
+namespace Prado\Rackspace\DNS\EntityManager;
 
 use DateTime;
 use Prado\Rackspace\DNSBundle\Entity\Domain;
@@ -8,7 +8,7 @@ use Prado\Rackspace\DNSBundle\Entity\Record;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 use Zend\Http\Client as ZendClient;
 
-class RecordEntityManager extends BaseEntityManager
+class RecordManager implements EntityManager
 {
     protected $accountId;
     

@@ -2,10 +2,9 @@
 
 namespace Prado\Rackspace\DNS\EntityManager;
 
-use Prado\Rackspace\DNS\Entity\AsynchResponse;
-
 use DateTime;
 use Prado\Rackspace\Http\Client;
+use Prado\Rackspace\DNS\Entity\AsynchResponse;
 use Prado\Rackspace\DNS\Entity\Domain;
 use Prado\Rackspace\DNS\Entity\DomainList;
 use Prado\Rackspace\DNS\Entity\Record;
@@ -14,7 +13,7 @@ use Prado\Rackspace\DNS\UriGenerator;
 use Prado\Rackspace\DNS\Model\Entity;
 use Prado\Rackspace\DNS\Model\EntityManager;
 
-class DomainEntityManager implements EntityManager
+class DomainManager implements EntityManager
 {
     /**
      * @var Prado\Rackspace\Http\Client

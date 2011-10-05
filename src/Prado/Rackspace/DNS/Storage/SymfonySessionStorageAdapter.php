@@ -1,6 +1,6 @@
 <?php
 
-namespace Prado\Rackspace\Storage;
+namespace Prado\Rackspace\DNS\Storage;
 
 use Symfony\Component\HttpFoundation\Session;
 

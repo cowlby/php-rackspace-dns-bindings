@@ -1,6 +1,8 @@
 <?php
 
-namespace Prado\Rackspace\Model;
+namespace Prado\Rackspace\DNS\Model;
+
+use IteratorAggregate;
 
 interface EntityList extends IteratorAggregate
 {

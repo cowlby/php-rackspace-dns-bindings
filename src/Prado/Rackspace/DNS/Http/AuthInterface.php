@@ -1,8 +1,6 @@
 <?php
 
-namespace Prado\Rackspace\Http;
-
-use Zend\Http\Request as ZendRequest;
+namespace Prado\Rackspace\DNS\Http;
 
 interface AuthInterface
 {
