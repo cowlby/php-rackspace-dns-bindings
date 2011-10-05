@@ -3,7 +3,7 @@
 namespace Prado\Rackspace\DNS\EntityManager;
 
 use DateTime;
-use Prado\Rackspace\Http\Client;
+use Prado\Rackspace\DNS\Http\Client;
 use Prado\Rackspace\DNS\Entity\AsynchResponse;
 use Prado\Rackspace\DNS\Entity\Domain;
 use Prado\Rackspace\DNS\Entity\DomainList;
@@ -16,7 +16,7 @@ use Prado\Rackspace\DNS\Model\EntityManager;
 class DomainManager implements EntityManager
 {
     /**
-     * @var Prado\Rackspace\Http\Client
+     * @var Prado\Rackspace\DNS\Http\Client
      */
     protected $_client;
     
@@ -26,22 +26,15 @@ class DomainManager implements EntityManager
     protected $_hydrator;
     
     /**
-     * @var Prado\Rackspace\DNS\UriGenerator
-     */
-    protected $_uriGenerator;
-    
-    /**
      * Constructor.
      * 
-     * @param Prado\Rackspace\Http\Client      $client
-     * @param Prado\Rackspace\DNS\Hydrator     $hydrator
-     * @param Prado\Rackspace\DNS\UriGenerator $uriGenerator
+     * @param Prado\Rackspace\Http\Client  $client
+     * @param Prado\Rackspace\DNS\Hydrator $hydrator
      */
-    public function __construct(Client $client, Hydrator $hydrator, UriGenerator $uriGenerator)
+    public function __construct(Client $client, Hydrator $hydrator)
     {
-        $this->_client       = $client;
-        $this->_hydrator     = $hydrator;
-        $this->_uriGenerator = $uriGenerator;
+        $this->_client   = $client;
+        $this->_hydrator = $hydrator;
     }
     
     public function create(Entity $entity)
@@ -91,8 +84,7 @@ class DomainManager implements EntityManager
     
     public function find($id)
     {
-        $uri = $this->_uriGenerator->getUri(sprintf('/domains/%s', $id));
-        $response = $this->_client->get($uri);
+        $response = $this->_client->get(sprintf('/domains/%s', $id));
         
         $json = json_decode($response->getBody(), TRUE);
         
@@ -111,9 +103,7 @@ class DomainManager implements EntityManager
     
     public function createList()
     {
-        
-        $uri = $this->_uriGenerator->getUri('/domains');
-        $response = $this->_client->get($uri);
+        $response = $this->_client->get('/domains');
         
         $json = json_decode($response->getBody(), TRUE);
         

@@ -6,14 +6,13 @@ use BadMethodCallException;
 use Prado\Rackspace\DNS\Http\Client;
 use Prado\Rackspace\DNS\Entity\AsynchResponse;
 use Prado\Rackspace\DNS\Hydrator;
-use Prado\Rackspace\DNS\UriGenerator;
 use Prado\Rackspace\DNS\Model\Entity;
 use Prado\Rackspace\DNS\Model\EntityManager;
 
 class AsynchResponseManager implements EntityManager
 {
     /**
-     * @var Prado\Rackspace\Http\Client
+     * @var Prado\Rackspace\DNS\Http\Client
      */
     protected $_client;
     
@@ -23,22 +22,15 @@ class AsynchResponseManager implements EntityManager
     protected $_hydrator;
     
     /**
-     * @var Prado\Rackspace\DNS\UriGenerator
-     */
-    protected $_uriGenerator;
-    
-    /**
      * Constructor.
      * 
-     * @param Prado\Rackspace\Http\Client      $client
-     * @param Prado\Rackspace\DNS\Hydrator     $hydrator
-     * @param Prado\Rackspace\DNS\UriGenerator $uriGenerator
+     * @param Prado\Rackspace\DNS\Http\Client  $client
+     * @param Prado\Rackspace\DNS\Hydrator $hydrator
      */
-    public function __construct(Client $client, Hydrator $hydrator, UriGenerator $uriGenerator)
+    public function __construct(Client $client, Hydrator $hydrator)
     {
-        $this->_client       = $client;
-        $this->_hydrator     = $hydrator;
-        $this->_uriGenerator = $uriGenerator;
+        $this->_client   = $client;
+        $this->_hydrator = $hydrator;
     }
     
     public function create(Entity $entity)
@@ -56,10 +48,14 @@ class AsynchResponseManager implements EntityManager
         throw new BadMethodCallException('Update method not supported on AsynchResponse');
     }
     
+    public function refresh(Entity $entity)
+    {
+        throw new BadMethodCallException('Refresh method not supported on AsynchResponse');
+    }
+    
     public function find($id)
     {
-        $uri = $this->_uriGenerator->getUri(sprintf('/status/%s?showDetails=true', $id));
-        $response = $this->_client->get($uri);
+        $response = $this->_client->get(sprintf('/status/%s?showDetails=true', $id));
         
         $json = json_decode($response->getBody(), TRUE);
         $entity = new AsynchResponse();
@@ -71,8 +67,7 @@ class AsynchResponseManager implements EntityManager
     
     public function createList()
     {
-        $uri = $this->_uriGenerator->getUri('/status');
-        $response = $this->_client->get($uri);
+        $response = $this->_client->get('/status');
         
         $json = json_decode($response->getBody(), TRUE);
         

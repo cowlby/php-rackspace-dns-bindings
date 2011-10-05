@@ -1,6 +1,6 @@
 <?php
 
-namespace Prado\Rackspace\Http;
+namespace Prado\Rackspace\DNS\Http;
 
 use Zend\Http\Headers;
 use Zend\Http\Client as ZendClient;
@@ -8,42 +8,35 @@ use Zend\Http\Request as ZendRequest;
 
 class Client
 {
-    const CONTENT_TYPE    = 'application/json';
-    const RESPONSE_FORMAT = 'application/json';
-    
-    /**
-     * @var Prado\Rackspace\Http\AuthInterface
-     */
-    protected $_auth;
-    
     /**
      * @var Zend\Http\Client
      */
     protected $_client;
     
     /**
+     * @var Prado\Rackspace\DNS\Http\RequestGenerator
+     */
+    protected $_generator;
+    
+    /**
      * Constructor.
      *  
      * @param Zend\Http\Client $client
      */
-    public function __construct(ZendClient $client, AuthInterface $auth)
+    public function __construct(ZendClient $client, RequestGenerator $generator)
     {
-        $this->_client = $client;
-        $this->_auth   = $auth;
+        $this->_client    = $client;
+        $this->_generator = $generator;
     }
     
     /**
      * @param string $uri The URI to GET
      * @return Zend\Http\Response The Zend Response generated.
      */
-    public function get($uri)
+    public function get($path)
     {
-        $request = new ZendRequest;
-        $request->setUri($uri);
+        $request = $this->_generator->createRequest($path);
         $request->setMethod(ZendRequest::METHOD_GET);
-        $request->headers()->addHeaders(array_merge(array(
-        	'Accept' => self::RESPONSE_FORMAT
-        ), $this->_auth->getAuthHeaders()));
         
         $response = $this->_client->send($request);
     
@@ -55,19 +48,14 @@ class Client
     }
     
     /**
-     * @param string $uri The URI to GET
+     * @param string $uri The URI to POST
      * @return Zend\Http\Response The Zend Response generated.
      */
-    public function post($uri, $data)
+    public function post($path, $data)
     {
-        $request = new ZendRequest;
-        $request->setUri($uri);
+        $request = $this->_generator->createRequest($path);
         $request->setMethod(ZendRequest::METHOD_POST);
         $request->setContent(json_encode($data));
-        $request->headers()->addHeaders(array_merge(array(
-            'Content-Type' => self::CONTENT_TYPE,
-        	'Accept' => self::RESPONSE_FORMAT
-        ), $this->_auth->getAuthHeaders()));
         
         $response = $this->_client->send($request);
         

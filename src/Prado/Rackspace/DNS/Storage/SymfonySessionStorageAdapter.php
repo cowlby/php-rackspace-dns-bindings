@@ -15,11 +15,11 @@ class SymfonySessionStorageAdapter implements StorageInterface
     
     public function retrieve($key)
     {
-        $this->_session->get($key, NULL);
+        return $this->_session->get($key, NULL);
     }
     
     public function store($key, $value)
     {
-        $this->_session->set($key, $value);
+        return $this->_session->set($key, $value);
     }
 }
