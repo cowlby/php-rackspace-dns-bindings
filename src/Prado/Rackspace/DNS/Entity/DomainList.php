@@ -17,7 +17,7 @@ class DomainList implements EntityList
     
     public function addEntity(Entity $entity)
     {
-        $this->domains[] = $domain;
+        $this->domains[] = $entity;
     }
     
     public function getIterator()
