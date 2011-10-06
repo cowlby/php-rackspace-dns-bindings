@@ -121,9 +121,6 @@ class RequestGenerator
         $this->_storage->store($this->getAuthTokenKey(), $authToken);
         $this->_storage->store($this->getAccountIdKey(), $accountId);
         
-        echo $this->_storage->retrieve($this->getAuthTokenKey());
-        die;
-        
         return TRUE;
     }
 }

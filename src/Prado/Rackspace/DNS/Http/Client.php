@@ -2,7 +2,6 @@
 
 namespace Prado\Rackspace\DNS\Http;
 
-use Zend\Http\Headers;
 use Zend\Http\Client as ZendClient;
 use Zend\Http\Request as ZendRequest;
 
@@ -30,8 +29,8 @@ class Client
     }
     
     /**
-     * @param string $uri The URI to GET
-     * @return Zend\Http\Response The Zend Response generated.
+     * @param string $uri The path to the resource
+     * @return Zend\Http\Response The Zend Response generated
      */
     public function get($path)
     {
@@ -48,7 +47,7 @@ class Client
     }
     
     /**
-     * @param string $uri The URI to POST
+     * @param string $uri The path to the resource
      * @return Zend\Http\Response The Zend Response generated.
      */
     public function post($path, $data)
