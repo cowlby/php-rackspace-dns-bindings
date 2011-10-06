@@ -9,7 +9,6 @@ use Prado\Rackspace\DNS\Entity\Domain;
 use Prado\Rackspace\DNS\Entity\DomainList;
 use Prado\Rackspace\DNS\Entity\Record;
 use Prado\Rackspace\DNS\Hydrator;
-use Prado\Rackspace\DNS\UriGenerator;
 use Prado\Rackspace\DNS\Model\Entity;
 use Prado\Rackspace\DNS\Model\EntityManager;
 
@@ -80,6 +79,11 @@ class DomainManager implements EntityManager
     
     public function update(Entity $entity)
     {
+    }
+    
+    public function refresh(Entity $entity)
+    {
+        throw new BadMethodCallException('Refresh method not supported on AsynchResponse');
     }
     
     public function find($id)

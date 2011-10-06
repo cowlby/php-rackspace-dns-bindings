@@ -2,10 +2,11 @@
 
 namespace Prado\Rackspace\DNS\Entity;
 
-use IteratorAggregate;
 use ArrayIterator;
+use Prado\Rackspace\DNS\Model\Entity;
+use Prado\Rackspace\DNS\Model\EntityList;
 
-class RecordList implements IteratorAggregate
+class RecordList implements EntityList
 {
     protected $records;
     
@@ -14,9 +15,9 @@ class RecordList implements IteratorAggregate
         $this->records = array();
     }
     
-    public function addEntity(Record $record)
+    public function addEntity(Entity $entity)
     {
-        $this->records[] = $record;
+        $this->records[] = $entity;
     }
     
     public function getIterator()

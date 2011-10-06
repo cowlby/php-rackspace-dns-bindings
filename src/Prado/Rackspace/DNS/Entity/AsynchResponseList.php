@@ -6,22 +6,22 @@ use ArrayIterator;
 use Prado\Rackspace\DNS\Model\Entity;
 use Prado\Rackspace\DNS\Model\EntityList;
 
-class DomainList implements EntityList
+class AsynchResponseList implements EntityList
 {
-    protected $domains;
+    protected $responses;
     
     public function __construct()
     {
-        $this->domains = array();
+        $this->responses = array();
     }
     
     public function addEntity(Entity $entity)
     {
-        $this->domains[] = $domain;
+        $this->responses[] = $entity;
     }
     
     public function getIterator()
     {
-        return new ArrayIterator($this->domains);
+        return new ArrayIterator($this->responses);
     }
 }
