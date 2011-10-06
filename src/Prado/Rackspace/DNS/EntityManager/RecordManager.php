@@ -6,6 +6,7 @@ namespace Prado\Rackspace\DNS\EntityManager;
 use DateTime;
 use Prado\Rackspace\DNS\Http\Client;
 use Prado\Rackspace\DNS\Entity\AsynchResponse;
+use Prado\Rackspace\DNS\Entity\Domain;
 use Prado\Rackspace\DNS\Entity\Record;
 use Prado\Rackspace\DNS\Entity\RecordList;
 use Prado\Rackspace\DNS\Hydrator;
