@@ -1,3 +1,6 @@
 [submodule "vendor/zf2"]
 	path = vendor/zf2
 	url = https://github.com/zendframework/zf2.git
+[submodule "vendor/Symfony/Component/ClassLoader"]
+	path = vendor/Symfony/Component/ClassLoader
+	url = https://github.com/symfony/ClassLoader.git
