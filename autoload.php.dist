@@ -1,0 +1,12 @@
+<?php
+
+require_once __DIR__.'/vendor/Symfony/Component/ClassLoader/UniversalClassLoader.php';
+
+use Symfony\Component\ClassLoader\UniversalClassLoader;
+
+$loader = new UniversalClassLoader;
+$loader->registerNamespaces(array(
+    'Prado' => __DIR__.'/src',
+    'Zend'  => __DIR__.'/vendor/zf2/library'
+));
+$loader->register();
