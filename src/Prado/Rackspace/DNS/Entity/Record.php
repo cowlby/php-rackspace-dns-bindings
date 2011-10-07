@@ -47,11 +47,6 @@ class Record implements Entity
         
     }
     
-    public function getFields()
-    {
-        return array('id', 'name', 'type', 'data', 'ttl', 'created', 'updated');
-    }
-    
     /**
      * @return the $id
      */

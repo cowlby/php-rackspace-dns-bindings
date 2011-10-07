@@ -57,11 +57,6 @@ class Domain implements Entity
         $this->records = new RecordList();
     }
     
-    public function getFields()
-    {
-        return array('id', 'name', 'accountId', 'emailAddress', 'comment', 'ttl', 'updated', 'created');
-    }
-    
 	/**
      * @return the $id
      */

@@ -41,11 +41,6 @@ class AsynchResponse implements Entity
         
     }
     
-    public function getFields()
-    {
-        return array('jobId', 'status', 'callbackUrl', 'requestUrl', 'verb', 'request');
-    }
-    
 	/**
      * @return the $jobId
      */
