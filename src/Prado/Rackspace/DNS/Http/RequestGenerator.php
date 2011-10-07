@@ -67,8 +67,8 @@ class RequestGenerator
         
         if (NULL === $authToken) {
             
-            $this->authenticate();
-            $authToken = $this->_storage->retrieve($this->getAuthTokenKey());
+            $authData  = $this->authenticate();
+            $authToken = $authData['auth_token'];
         }
         
         return $authToken;
@@ -80,8 +80,8 @@ class RequestGenerator
         
         if (NULL === $accountId) {
             
-            $this->authenticate();
-            $accountId = $this->_storage->retrieve($this->getAccountIdKey());
+            $authData  = $this->authenticate();
+            $accountId = $authData['account_id'];
         }
         
         return $accountId;
@@ -121,6 +121,9 @@ class RequestGenerator
         $this->_storage->store($this->getAuthTokenKey(), $authToken);
         $this->_storage->store($this->getAccountIdKey(), $accountId);
         
-        return TRUE;
+        return array(
+            'auth_token' => $authToken,
+            'account_id' => $accountId
+        );
     }
 }
