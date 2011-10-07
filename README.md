@@ -10,13 +10,13 @@ homepage for more information about the Rackspace Cloud DNS system.
 Requirements
 --------------------------------
 
-- PHP 5.3+ (Developed against 5.3.0)
+- PHP 5.3+
 - One of the following 3rd party libraries for the Http\Client component:
-    - [Zend Framework 2.0+](https://github.com/zendframework/zf2)
+    * [Zend Framework 2.0+](https://github.com/zendframework/zf2)
 - One of the following 3rd party components for the Storage component:
-    - [Memcached Extension](http://us.php.net/memcached)
-    - [Memcache Extension](http://us.php.net/memcache)
-    - [Symfony HttpFoundation 2.0+](https://github.com/symfony/HttpFoundation)
+    * [Memcached Extension](http://us.php.net/memcached)
+    * [Memcache Extension](http://us.php.net/memcache)
+    * [Symfony HttpFoundation 2.0+](https://github.com/symfony/HttpFoundation)
 
 
 Install
