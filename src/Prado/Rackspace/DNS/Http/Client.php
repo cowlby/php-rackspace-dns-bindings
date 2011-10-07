@@ -54,7 +54,10 @@ class Client
     {
         $request = $this->_generator->createRequest($path);
         $request->setMethod(ZendRequest::METHOD_POST);
-        $request->setContent(json_encode($data));
+        
+        $content = json_encode($data);
+        $request->setContent($content);
+        $request->headers()->addHeaders(array('Content-Length' => strlen($content)));
         
         $response = $this->_client->send($request);
         
