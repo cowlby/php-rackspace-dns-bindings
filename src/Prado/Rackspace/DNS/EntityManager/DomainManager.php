@@ -46,8 +46,7 @@ class DomainManager implements EntityManager
             }
         }
         
-        $uri = $this->_uriGenerator->getUri('/domains');
-        $response = $this->_client->post($uri, array(
+        $response = $this->_client->post('/domains', array(
         	'domains' => array($object)
         ));
         
