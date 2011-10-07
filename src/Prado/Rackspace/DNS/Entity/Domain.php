@@ -59,7 +59,7 @@ class Domain implements Entity
     
     public function getFields()
     {
-        return array('id', 'name', 'accountId', 'emailAddress', 'ttl', 'updated', 'created');
+        return array('id', 'name', 'accountId', 'emailAddress', 'comment', 'ttl', 'updated', 'created');
     }
     
 	/**
