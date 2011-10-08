@@ -19,7 +19,17 @@ class AsynchResponse implements Entity
     /**
      * @var string
      */
+    protected $response;
+    
+    /**
+     * @var string
+     */
     protected $status;
+    
+    /**
+     * @var string
+     */
+    protected $error;
     
     /**
      * @var string
@@ -58,11 +68,27 @@ class AsynchResponse implements Entity
     }
 
 	/**
+     * @return the $response
+     */
+    public function getResponse()
+    {
+        return $this->response;
+    }
+
+	/**
      * @return the $status
      */
     public function getStatus()
     {
         return $this->status;
+    }
+
+	/**
+     * @return the $error
+     */
+    public function getError()
+    {
+        return $this->error;
     }
 
 	/**
@@ -106,11 +132,27 @@ class AsynchResponse implements Entity
     }
 
 	/**
+     * @param string $response
+     */
+    public function setResponse($response)
+    {
+        $this->response = $response;
+    }
+
+	/**
      * @param string $status
      */
     public function setStatus($status)
     {
         $this->status = $status;
+    }
+
+	/**
+     * @param string $error
+     */
+    public function setError($error)
+    {
+        $this->error = $error;
     }
 
 	/**

@@ -15,17 +15,22 @@ class Record implements Entity
     /**
      * @var string
      */
-    protected $name;
-    
-    /**
-     * @var string
-     */
     protected $type;
     
     /**
      * @var string
      */
+    protected $name;
+    
+    /**
+     * @var string
+     */
     protected $data;
+    
+    /**
+     * @var integer
+     */
+    protected $priority;
     
     /**
      * @var integer
@@ -56,14 +61,6 @@ class Record implements Entity
     }
 
 	/**
-     * @return the $name
-     */
-    public function getName()
-    {
-        return $this->name;
-    }
-
-	/**
      * @return the $type
      */
     public function getType()
@@ -72,11 +69,27 @@ class Record implements Entity
     }
 
 	/**
+     * @return the $name
+     */
+    public function getName()
+    {
+        return $this->name;
+    }
+
+	/**
      * @return the $data
      */
     public function getData()
     {
         return $this->data;
+    }
+    
+    /**
+     * @return the $priority
+     */
+    public function getPriority()
+    {
+        return $this->priority;
     }
 
 	/**
@@ -112,14 +125,6 @@ class Record implements Entity
     }
 
 	/**
-     * @param string $name
-     */
-    public function setName($name)
-    {
-        $this->name = $name;
-    }
-
-	/**
      * @param string $type
      */
     public function setType($type)
@@ -128,11 +133,27 @@ class Record implements Entity
     }
 
 	/**
+     * @param string $name
+     */
+    public function setName($name)
+    {
+        $this->name = $name;
+    }
+
+	/**
      * @param string $data
      */
     public function setData($data)
     {
         $this->data = $data;
+    }
+
+	/**
+     * @param string $priority
+     */
+    public function setPriority($priority)
+    {
+        $this->priority = $priority;
     }
 
 	/**
