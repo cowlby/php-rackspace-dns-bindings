@@ -38,6 +38,16 @@ class Domain implements Entity
     protected $emailAddress;
     
     /**
+     * @var string
+     */
+    protected $contentType;
+    
+    /**
+     * @var string
+     */
+    protected $content;
+    
+    /**
      * @var DateTime
      */
     protected $updated;
@@ -103,6 +113,22 @@ class Domain implements Entity
     public function getEmailAddress()
     {
         return $this->emailAddress;
+    }
+
+	/**
+     * @return the $contentType
+     */
+    public function getContentType()
+    {
+        return $this->contentType;
+    }
+
+	/**
+     * @return the $content
+     */
+    public function getContent()
+    {
+        return $this->content;
     }
 
 	/**
@@ -175,6 +201,22 @@ class Domain implements Entity
     public function setEmailAddress($emailAddress)
     {
         $this->emailAddress = $emailAddress;
+    }
+
+	/**
+     * @param integer $contentType
+     */
+    public function setContentType($contentType)
+    {
+        $this->contentType = $contentType;
+    }
+
+	/**
+     * @param string $content
+     */
+    public function setContent($content)
+    {
+        $this->content = $content;
     }
 
 	/**
