@@ -59,21 +59,17 @@ class DomainManager implements EntityManager
     
     public function remove(Entity $entity)
     {
-        if (!$domain->getId()) {
+        if (!$entity->getId()) {
             throw new \BadMethodCallException('Must set the ID of the domain you want to remove.');
         }
         
-        $this->_client->resetParameters();
-        $uri = sprintf('https://dns.api.rackspacecloud.com/v1.0/%s/domains/%s', $this->accountId, $domain->getId());
-        $this->_client->setUri($uri);
+        $response = $this->_client->delete(sprintf('/domains/%s', $entity->getId()));
         
-        $response = $this->_client->request(ZendClient::DELETE);
+        $json = json_decode($response->getBody(), TRUE);
+        $asynchResponse = new AsynchResponse;
+        $this->_hydrator->hydrateEntity($asynchResponse, $json);
         
-        if ($response->isError()) {
-            throw new HttpException($response->getStatus(), $response->getBody());
-        }
-        
-        return TRUE;
+        return $asynchResponse;
     }
     
     public function update(Entity $entity)
@@ -82,7 +78,7 @@ class DomainManager implements EntityManager
     
     public function refresh(Entity $entity)
     {
-        throw new BadMethodCallException('Refresh method not supported on AsynchResponse');
+        throw new \BadMethodCallException('Refresh method not supported on AsynchResponse');
     }
     
     public function find($id)
@@ -102,6 +98,38 @@ class DomainManager implements EntityManager
         }
         
         return $entity;
+    }
+    
+    public function import(Domain $domain)
+    {
+        $object = array();
+        foreach (array('name', 'contentType', 'content', 'comment') as $attribute) {
+            $get = sprintf('get%s', ucfirst($attribute));
+            if ($entity->$get()) {
+                $object[$attribute] = $domain->$get();
+            }
+        }
+        
+        $response = $this->_client->post('/domains/import', array(
+        	'domains' => array($object)
+        ));
+        
+        $data = json_decode($response->getBody(), TRUE);
+        $asynchResponse = new AsynchResponse;
+        $this->_hydrator->hydrateEntity($asynchResponse, $data);
+        
+        return $asynchResponse;
+    }
+    
+    public function export(Domain $domain)
+    {
+        $response = $this->_client->get(sprintf('/domains/%s/export', $domain->getId()));
+        
+        $data = json_decode($response->getBody(), TRUE);
+        $asynchResponse = new AsynchResponse;
+        $this->_hydrator->hydrateEntity($asynchResponse, $data);
+        
+        return $asynchResponse;
     }
     
     public function createList()
