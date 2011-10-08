@@ -3,3 +3,4 @@
 .buildpath
 autoload.php
 phpunit.xml
+tests/sandbox.php
