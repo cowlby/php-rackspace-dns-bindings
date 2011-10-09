@@ -8,7 +8,6 @@ use Prado\Rackspace\DNS\Entity\AsynchResponse;
 use Prado\Rackspace\DNS\Entity\Domain;
 use Prado\Rackspace\DNS\Entity\DomainList;
 use Prado\Rackspace\DNS\Entity\Record;
-use Prado\Rackspace\DNS\Hydrator;
 use Prado\Rackspace\DNS\Entity;
 use Prado\Rackspace\DNS\EntityManager;
 

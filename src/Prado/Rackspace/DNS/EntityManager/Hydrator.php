@@ -1,10 +1,7 @@
 <?php
 
-namespace Prado\Rackspace\DNS;
+namespace Prado\Rackspace\DNS\EntityManager;
 
-use Symfony\Component\Serializer\Normalizer\GetSetMethodNormalizer;
-
-use stdClass;
 use DateTime;
 use ReflectionMethod;
 use ReflectionObject;

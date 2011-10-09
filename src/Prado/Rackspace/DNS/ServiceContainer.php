@@ -2,17 +2,15 @@
 
 namespace Prado\Rackspace\DNS;
 
-
+use Prado\Rackspace\DNS\CloudDNSService;
 use Prado\Rackspace\DNS\Entity\Domain;
 use Prado\Rackspace\DNS\EntityManager\AsynchResponseManager;
 use Prado\Rackspace\DNS\EntityManager\DomainManager;
 use Prado\Rackspace\DNS\EntityManager\RecordManager;
+use Prado\Rackspace\DNS\EntityManager\Hydrator;
 use Prado\Rackspace\DNS\Http\CurlApiClient;
 use Prado\Rackspace\DNS\Http\CurlAuthenticator;
-use Prado\Rackspace\DNS\Http\RequestGenerator;
-use Prado\Rackspace\DNS\CloudDNSService;
 use Prado\Rackspace\DNS\Storage\NullStorageAdapter;
-use Zend\Http\Client as ZendClient;
 
 class ServiceContainer implements CloudDNSService
 {

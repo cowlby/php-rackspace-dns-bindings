@@ -5,7 +5,6 @@ namespace Prado\Rackspace\DNS\EntityManager;
 use BadMethodCallException;
 use Prado\Rackspace\DNS\Http\RestInterface;
 use Prado\Rackspace\DNS\Entity\AsynchResponse;
-use Prado\Rackspace\DNS\Hydrator;
 use Prado\Rackspace\DNS\Entity;
 use Prado\Rackspace\DNS\EntityManager;
 
