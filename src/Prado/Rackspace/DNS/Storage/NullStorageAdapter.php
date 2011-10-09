@@ -2,19 +2,21 @@
 
 namespace Prado\Rackspace\DNS\Storage;
 
-use Symfony\Component\HttpFoundation\Session;
-
 class NullStorageAdapter implements StorageInterface
 {
-    public function __construct()
-    {
-    }
-    
+    /**
+     * @see Prado\Rackspace\DNS\Storage.StorageInterface::retrieve()
+     * @return NULL
+     */
     public function retrieve($key)
     {
         return NULL;
     }
     
+    /**
+     * @see Prado\Rackspace\DNS\Storage.StorageInterface::store()
+     * @return NULL.
+     */
     public function store($key, $value)
     {
         return NULL;
