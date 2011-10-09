@@ -3,7 +3,7 @@
 namespace Prado\Rackspace\DNS\EntityManager;
 
 use BadMethodCallException;
-use Prado\Rackspace\DNS\Http\Client;
+use Prado\Rackspace\DNS\Http\RestInterface;
 use Prado\Rackspace\DNS\Entity\AsynchResponse;
 use Prado\Rackspace\DNS\Hydrator;
 use Prado\Rackspace\DNS\Model\Entity;
@@ -12,9 +12,9 @@ use Prado\Rackspace\DNS\Model\EntityManager;
 class AsynchResponseManager implements EntityManager
 {
     /**
-     * @var Prado\Rackspace\DNS\Http\Client
+     * @var Prado\Rackspace\DNS\Http\RestInterface
      */
-    protected $_client;
+    protected $_rest;
     
     /**
      * @var Prado\Rackspace\DNS\Hydrator
@@ -24,12 +24,12 @@ class AsynchResponseManager implements EntityManager
     /**
      * Constructor.
      * 
-     * @param Prado\Rackspace\DNS\Http\Client  $client
-     * @param Prado\Rackspace\DNS\Hydrator $hydrator
+     * @param Prado\Rackspace\DNS\Http\RestInterface $rest
+     * @param Prado\Rackspace\DNS\Hydrator           $hydrator
      */
-    public function __construct(Client $client, Hydrator $hydrator)
+    public function __construct(RestInterface $rest, Hydrator $hydrator)
     {
-        $this->_client   = $client;
+        $this->_rest = $rest;
         $this->_hydrator = $hydrator;
     }
     
@@ -55,24 +55,20 @@ class AsynchResponseManager implements EntityManager
     
     public function find($id)
     {
-        $response = $this->_client->get(sprintf('/status/%s?showDetails=true', $id));
+        $data = $this->_rest->get(sprintf('/status/%s?showDetails=true', $id));
         
-        $json = json_decode($response->getBody(), TRUE);
         $entity = new AsynchResponse();
-        
-        $this->_hydrator->hydrateEntity($entity, $json);
+        $this->_hydrator->hydrateEntity($entity, $data);
         
         return $entity;
     }
     
     public function createList()
     {
-        $response = $this->_client->get('/status');
-        
-        $json = json_decode($response->getBody(), TRUE);
+        $data = $this->_rest->get('/status');
         
         $list = array();
-        foreach ($json['asyncResponses'] as $asyncResponse) {
+        foreach ($data['asyncResponses'] as $asyncResponse) {
             
             $entity = new AsynchResponse();
             $this->_hydrator->hydrateEntity($entity, $asyncResponse);

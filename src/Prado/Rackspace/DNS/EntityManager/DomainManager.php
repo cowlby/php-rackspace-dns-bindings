@@ -3,7 +3,7 @@
 namespace Prado\Rackspace\DNS\EntityManager;
 
 use DateTime;
-use Prado\Rackspace\DNS\Http\Client;
+use Prado\Rackspace\DNS\Http\RestInterface;
 use Prado\Rackspace\DNS\Entity\AsynchResponse;
 use Prado\Rackspace\DNS\Entity\Domain;
 use Prado\Rackspace\DNS\Entity\DomainList;
@@ -15,9 +15,9 @@ use Prado\Rackspace\DNS\Model\EntityManager;
 class DomainManager implements EntityManager
 {
     /**
-     * @var Prado\Rackspace\DNS\Http\Client
+     * @var Prado\Rackspace\DNS\Http\RestInterface
      */
-    protected $_client;
+    protected $_rest;
     
     /**
      * @var Prado\Rackspace\DNS\Hydrator
@@ -27,12 +27,12 @@ class DomainManager implements EntityManager
     /**
      * Constructor.
      * 
-     * @param Prado\Rackspace\Http\Client  $client
-     * @param Prado\Rackspace\DNS\Hydrator $hydrator
+     * @param Prado\Rackspace\Http\RestInterface  $rest
+     * @param Prado\Rackspace\DNS\Hydrator        $hydrator
      */
-    public function __construct(Client $client, Hydrator $hydrator)
+    public function __construct(RestInterface $rest, Hydrator $hydrator)
     {
-        $this->_client   = $client;
+        $this->_rest = $rest;
         $this->_hydrator = $hydrator;
     }
     
@@ -46,13 +46,12 @@ class DomainManager implements EntityManager
             }
         }
         
-        $response = $this->_client->post('/domains', array(
+        $data = $this->_rest->post('/domains', array(
         	'domains' => array($object)
         ));
         
-        $json = json_decode($response->getBody(), TRUE);
         $asynchResponse = new AsynchResponse;
-        $this->_hydrator->hydrateEntity($asynchResponse, $json);
+        $this->_hydrator->hydrateEntity($asynchResponse, $data);
         
         return $asynchResponse;
     }
@@ -63,11 +62,10 @@ class DomainManager implements EntityManager
             throw new \BadMethodCallException('Must set the ID of the domain you want to remove.');
         }
         
-        $response = $this->_client->delete(sprintf('/domains/%s', $entity->getId()));
+        $data = $this->_rest->delete(sprintf('/domains/%s', $entity->getId()));
         
-        $json = json_decode($response->getBody(), TRUE);
         $asynchResponse = new AsynchResponse;
-        $this->_hydrator->hydrateEntity($asynchResponse, $json);
+        $this->_hydrator->hydrateEntity($asynchResponse, $data);
         
         return $asynchResponse;
     }
@@ -78,19 +76,16 @@ class DomainManager implements EntityManager
     
     public function refresh(Entity $entity)
     {
-        throw new \BadMethodCallException('Refresh method not supported on AsynchResponse');
     }
     
     public function find($id)
     {
-        $response = $this->_client->get(sprintf('/domains/%s', $id));
-        
-        $json = json_decode($response->getBody(), TRUE);
+        $data = $this->_rest->get(sprintf('/domains/%s', $id));
         
         $entity = new Domain();
-        $this->_hydrator->hydrateEntity($entity, $json);
+        $this->_hydrator->hydrateEntity($entity, $data);
         
-        foreach ($json['recordsList']['records'] as $jsonRecord) {
+        foreach ($data['recordsList']['records'] as $jsonRecord) {
             
             $record = new Record();
             $this->_hydrator->hydrateEntity($record, $jsonRecord);
@@ -110,11 +105,10 @@ class DomainManager implements EntityManager
             }
         }
         
-        $response = $this->_client->post('/domains/import', array(
+        $data = $this->_rest->post('/domains/import', array(
         	'domains' => array($object)
         ));
         
-        $data = json_decode($response->getBody(), TRUE);
         $asynchResponse = new AsynchResponse;
         $this->_hydrator->hydrateEntity($asynchResponse, $data);
         
@@ -123,9 +117,8 @@ class DomainManager implements EntityManager
     
     public function export(Domain $domain)
     {
-        $response = $this->_client->get(sprintf('/domains/%s/export', $domain->getId()));
+        $data = $this->_rest->get(sprintf('/domains/%s/export', $domain->getId()));
         
-        $data = json_decode($response->getBody(), TRUE);
         $asynchResponse = new AsynchResponse;
         $this->_hydrator->hydrateEntity($asynchResponse, $data);
         
@@ -134,12 +127,10 @@ class DomainManager implements EntityManager
     
     public function createList()
     {
-        $response = $this->_client->get('/domains');
-        
-        $json = json_decode($response->getBody(), TRUE);
+        $data = $this->_rest->get('/domains');
         
         $list = new DomainList();
-        foreach ($json['domains'] as $jsonDomain) {
+        foreach ($data['domains'] as $jsonDomain) {
             
             $entity = new Domain();
             $this->_hydrator->hydrateEntity($entity, $jsonDomain);

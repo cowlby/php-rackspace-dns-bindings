@@ -2,11 +2,13 @@
 
 namespace Prado\Rackspace\DNS;
 
+
 use Prado\Rackspace\DNS\Entity\Domain;
 use Prado\Rackspace\DNS\EntityManager\AsynchResponseManager;
 use Prado\Rackspace\DNS\EntityManager\DomainManager;
 use Prado\Rackspace\DNS\EntityManager\RecordManager;
-use Prado\Rackspace\DNS\Http\Client;
+use Prado\Rackspace\DNS\Http\CurlApiClient;
+use Prado\Rackspace\DNS\Http\CurlAuthenticator;
 use Prado\Rackspace\DNS\Http\RequestGenerator;
 use Prado\Rackspace\DNS\Model\CloudDNSService;
 use Prado\Rackspace\DNS\Storage\NullStorageAdapter;
@@ -76,7 +78,7 @@ class ServiceContainer implements CloudDNSService
     }
     
     /**
-     * @return Prado\Rackspace\DNS\Http\Client
+     * @return Prado\Rackspace\DNS\Http\CurlApiClient
      */
     protected function getClient()
     {
@@ -84,35 +86,20 @@ class ServiceContainer implements CloudDNSService
             return self::$shared['client'];
         }
         
-        $client = new Client($this->getZendClient(), $this->getRequestGenerator());
+        $client = new CurlApiClient($this->getAuthenticator());
         
         return self::$shared['client'] = $client;
     }
     
-    /**
-     * @return Zend\Http\Client
-     */
-    protected function getZendClient()
+    public function getAuthenticator()
     {
-        if (isset(self::$shared['zend_client'])) {
-            return self::$shared['zend_client'];
-        }
-         
-        return self::$shared['zend_client'] = new ZendClient;
-    }
-    
-    /**
-     * @return Prado\Rackspace\DNS\Http\RequestGenerator
-     */
-    protected function getRequestGenerator()
-    {
-        if (isset(self::$shared['request_generator'])) {
-            return self::$shared['request_generator'];
+        if (isset(self::$shared['auth'])) {
+            return self::$shared['auth'];
         }
         
-        $generator = new RequestGenerator($this->username, $this->apiKey, $this->getStorage());
+        $auth = new CurlAuthenticator($this->username, $this->apiKey, $this->getStorage());
         
-        return self::$shared['request_generator'] = $generator;
+        return self::$shared['auth'] = $auth;
     }
     
     /**

@@ -4,7 +4,7 @@ namespace Prado\Rackspace\DNS\EntityManager;
 
 
 use DateTime;
-use Prado\Rackspace\DNS\Http\Client;
+use Prado\Rackspace\DNS\Http\RestInterface;
 use Prado\Rackspace\DNS\Entity\AsynchResponse;
 use Prado\Rackspace\DNS\Entity\Domain;
 use Prado\Rackspace\DNS\Entity\Record;
@@ -16,9 +16,9 @@ use Prado\Rackspace\DNS\Model\EntityManager;
 class RecordManager implements EntityManager
 {
     /**
-     * @var Prado\Rackspace\DNS\Http\Client
+     * @var Prado\Rackspace\DNS\Http\RestInterface
      */
-    protected $_client;
+    protected $_api;
     
     /**
      * @var Prado\Rackspace\DNS\Hydrator
@@ -33,12 +33,12 @@ class RecordManager implements EntityManager
     /**
      * Constructor.
      * 
-     * @param Prado\Rackspace\Http\Client  $client
-     * @param Prado\Rackspace\DNS\Hydrator $hydrator
+     * @param Prado\Rackspace\Http\RestInterface $apit
+     * @param Prado\Rackspace\DNS\Hydrator       $hydrator
      */
-    public function __construct(Client $client, Hydrator $hydrator, Domain $domain)
+    public function __construct(RestInterface $api, Hydrator $hydrator, Domain $domain)
     {
-        $this->_client   = $client;
+        $this->_api      = $api;
         $this->_hydrator = $hydrator;
         $this->_domain   = $domain;
     }
@@ -65,30 +65,21 @@ class RecordManager implements EntityManager
     
     public function find($id)
     {
-        $response = $this->_client->get(sprintf('/domains/%s/records/%s', $this->_domain->getId(), $id));
+        $data = $this->_api->get(sprintf('/domains/%s/records/%s', $this->_domain->getId(), $id));
         
-        $json = json_decode($response->getBody(), TRUE);
-        
-        $entity = new Record();
-        $this->_hydrator->hydrateEntity($entity, $json);
+        $entity = new Record;
+        $this->_hydrator->hydrateEntity($entity, $data);
         
         return $entity;
     }
     
     public function createList()
     {
-        $response = $this->_client->get(sprintf('/domains/%s/records', $this->_domain->getId()));
+        $data = $this->_api->get(sprintf('/domains/%s/records', $this->_domain->getId()));
         
-        $json = json_decode($response->getBody(), TRUE);
-        
-        $entity = new Record();
-        $this->_hydrator->hydrateEntity($entity, $json);
+        $entity = new Record;
+        $this->_hydrator->hydrateEntity($entity, $data);
         
         return $entity;
-    }
-    
-    public static function getFields()
-    {
-        return array('id', 'name', 'type', 'data', 'ttl', 'created', 'updated');
     }
 }
