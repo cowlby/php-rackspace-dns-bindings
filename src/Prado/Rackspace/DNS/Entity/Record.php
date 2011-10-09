@@ -3,7 +3,7 @@
 namespace Prado\Rackspace\DNS\Entity;
 
 use DateTime;
-use Prado\Rackspace\DNS\Model\Entity;
+use Prado\Rackspace\DNS\Entity;
 
 class Record implements Entity
 {

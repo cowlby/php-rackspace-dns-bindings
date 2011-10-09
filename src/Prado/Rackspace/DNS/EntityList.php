@@ -1,6 +1,6 @@
 <?php
 
-namespace Prado\Rackspace\DNS\Model;
+namespace Prado\Rackspace\DNS;
 
 use IteratorAggregate;
 

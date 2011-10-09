@@ -8,7 +8,7 @@ use stdClass;
 use DateTime;
 use ReflectionMethod;
 use ReflectionObject;
-use Prado\Rackspace\DNS\Model\Entity;
+use Prado\Rackspace\DNS\Entity;
 
 class Hydrator
 {

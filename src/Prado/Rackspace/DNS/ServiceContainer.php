@@ -10,7 +10,7 @@ use Prado\Rackspace\DNS\EntityManager\RecordManager;
 use Prado\Rackspace\DNS\Http\CurlApiClient;
 use Prado\Rackspace\DNS\Http\CurlAuthenticator;
 use Prado\Rackspace\DNS\Http\RequestGenerator;
-use Prado\Rackspace\DNS\Model\CloudDNSService;
+use Prado\Rackspace\DNS\CloudDNSService;
 use Prado\Rackspace\DNS\Storage\NullStorageAdapter;
 use Zend\Http\Client as ZendClient;
 

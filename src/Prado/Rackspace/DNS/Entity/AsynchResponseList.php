@@ -3,8 +3,8 @@
 namespace Prado\Rackspace\DNS\Entity;
 
 use ArrayIterator;
-use Prado\Rackspace\DNS\Model\Entity;
-use Prado\Rackspace\DNS\Model\EntityList;
+use Prado\Rackspace\DNS\Entity;
+use Prado\Rackspace\DNS\EntityList;
 
 class AsynchResponseList implements EntityList
 {

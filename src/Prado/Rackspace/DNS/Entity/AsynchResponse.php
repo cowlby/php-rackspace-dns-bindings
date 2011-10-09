@@ -2,7 +2,7 @@
 
 namespace Prado\Rackspace\DNS\Entity;
 
-use Prado\Rackspace\DNS\Model\Entity;
+use Prado\Rackspace\DNS\Entity;
 
 class AsynchResponse implements Entity
 {
