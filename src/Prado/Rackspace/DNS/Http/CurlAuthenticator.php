@@ -11,7 +11,7 @@ class CurlAuthenticator implements Authenticator
     const KEY_AUTH_TOKEN = 'rs_dns.auth_token';
     const KEY_ACCOUNT_ID = 'rs_dns.account_id';
     
-    const ENDPOINT_AUTH_US = 'https://auth.api.rackspacecloud.com/v1.0';
+    const AUTH_ENDPOINT_US = 'https://auth.api.rackspacecloud.com/v1.0';
     
     protected $username;
     
@@ -100,17 +100,23 @@ class CurlAuthenticator implements Authenticator
      */
     public function authenticate()
     {
-        $ch = curl_init(self::ENDPOINT_AUTH_US);
+        $ch = curl_init(self::AUTH_ENDPOINT_US);
         
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
-        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, TRUE);
-        curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 2);
-        curl_setopt($ch, CURLOPT_CAINFO, __DIR__.'/ca.pem');
-        curl_setopt($ch, CURLOPT_HEADERFUNCTION, array($this, 'parseAuthHeaders'));
-        curl_setopt($ch, CURLOPT_HTTPHEADER, array(
-            'X-Auth-User: ' . $this->username,
-            'X-Auth-Key: ' . $this->apiKey
-        ));
+        $headers = array(
+        	'X-Auth-User: ' . $this->username,
+        	'X-Auth-Key: ' . $this->apiKey
+        );
+        
+        $options = array(
+            CURLOPT_RETURNTRANSFER => TRUE,
+            CURLOPT_SSL_VERIFYPEER => TRUE,
+            CURLOPT_SSL_VERIFYHOST => 2,
+            CURLOPT_CAINFO => __DIR__.'/ca.pem',
+            CURLOPT_HEADERFUNCTION => array($this, 'parseAuthHeaders'),
+            CURLOPT_HTTPHEADER => $headers
+        );
+        
+        curl_setopt_array($ch, $options);
         
         $response = curl_exec($ch);
         
