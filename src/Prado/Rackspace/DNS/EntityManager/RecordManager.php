@@ -2,8 +2,8 @@
 
 namespace Prado\Rackspace\DNS\EntityManager;
 
-
 use DateTime;
+use BadMethodCallException;
 use Prado\Rackspace\DNS\Http\RestInterface;
 use Prado\Rackspace\DNS\Entity\AsynchResponse;
 use Prado\Rackspace\DNS\Entity\Domain;
@@ -44,22 +44,22 @@ class RecordManager implements EntityManager
     
     public function create(Entity $entity)
     {
-        
+        throw new BadMethodCallException('Create method not yet implemented.');
     }
     
     public function remove(Entity $entity)
     {
-        
+        throw new BadMethodCallException('Remove method not yet implemented.');
     }
     
     public function update(Entity $entity)
     {
-        
+        throw new BadMethodCallException('Update method not yet implemented.');
     }
     
     public function refresh(Entity $entity)
     {
-        
+        throw new BadMethodCallException('Refresh method not yet implemented.');
     }
     
     public function find($id)
