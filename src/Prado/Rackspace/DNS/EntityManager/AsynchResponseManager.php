@@ -50,7 +50,7 @@ class AsynchResponseManager implements EntityManager
     
     public function refresh(Entity $entity)
     {
-        throw new BadMethodCallException('Refresh method not supported on AsynchResponse');
+        throw new BadMethodCallException('Refresh method not yet implemented.');
     }
     
     public function find($id)
