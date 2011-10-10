@@ -5,6 +5,7 @@ namespace Prado\Rackspace\DNS\EntityManager;
 use BadMethodCallException;
 use Prado\Rackspace\DNS\Http\RestInterface;
 use Prado\Rackspace\DNS\Entity\AsynchResponse;
+use Prado\Rackspace\DNS\Entity\AsynchResponseList;
 use Prado\Rackspace\DNS\Entity;
 use Prado\Rackspace\DNS\EntityManager;
 
@@ -13,7 +14,7 @@ class AsynchResponseManager implements EntityManager
     /**
      * @var Prado\Rackspace\DNS\Http\RestInterface
      */
-    protected $_rest;
+    protected $_api;
     
     /**
      * @var Prado\Rackspace\DNS\Hydrator
@@ -26,9 +27,9 @@ class AsynchResponseManager implements EntityManager
      * @param Prado\Rackspace\DNS\Http\RestInterface $rest
      * @param Prado\Rackspace\DNS\Hydrator           $hydrator
      */
-    public function __construct(RestInterface $rest, Hydrator $hydrator)
+    public function __construct(RestInterface $api, Hydrator $hydrator)
     {
-        $this->_rest = $rest;
+        $this->_api = $api;
         $this->_hydrator = $hydrator;
     }
     
@@ -54,7 +55,7 @@ class AsynchResponseManager implements EntityManager
     
     public function find($id)
     {
-        $data = $this->_rest->get(sprintf('/status/%s?showDetails=true', $id));
+        $data = $this->_api->get(sprintf('/status/%s?showDetails=true', $id));
         
         $entity = new AsynchResponse();
         $this->_hydrator->hydrateEntity($entity, $data);
@@ -64,14 +65,14 @@ class AsynchResponseManager implements EntityManager
     
     public function createList()
     {
-        $data = $this->_rest->get('/status');
+        $data = $this->_api->get('/status');
         
-        $list = array();
+        $list = new AsynchResponseList;
         foreach ($data['asyncResponses'] as $asyncResponse) {
             
             $entity = new AsynchResponse();
             $this->_hydrator->hydrateEntity($entity, $asyncResponse);
-            $list[] = $entity;
+            $list->addEntity($entity);
         }
         
         return $list;
