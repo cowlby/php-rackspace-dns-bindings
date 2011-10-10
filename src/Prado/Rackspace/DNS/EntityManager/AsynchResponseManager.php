@@ -50,7 +50,11 @@ class AsynchResponseManager implements EntityManager
     
     public function refresh(Entity $entity)
     {
-        throw new BadMethodCallException('Refresh method not yet implemented.');
+        $data = $this->_api->get(sprintf('/status/%s?showDetails=true', $entity->getId()));
+        
+        $this->_hydrator->hydrateEntity($entity, $data);
+        
+        return $entity;
     }
     
     public function find($id)
