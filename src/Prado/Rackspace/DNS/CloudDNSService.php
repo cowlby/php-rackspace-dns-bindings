@@ -4,7 +4,7 @@ namespace Prado\Rackspace\DNS;
 
 use Prado\Rackspace\DNS\Entity\Domain;
 
-interface CloudDNSService
+interface CloudDnsService
 {
     /**
      * Creates and returns a shared AsynchResponseManager instance.

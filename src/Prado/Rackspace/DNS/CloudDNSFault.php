@@ -2,6 +2,6 @@
 
 namespace Prado\Rackspace\DNS;
 
-interface CloudDNSFault
+interface CloudDnsFault
 {
 }

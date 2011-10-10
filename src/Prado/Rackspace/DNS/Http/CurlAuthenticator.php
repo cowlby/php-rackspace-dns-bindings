@@ -130,7 +130,7 @@ class CurlAuthenticator implements Authenticator
                     break;
                     
                 default:
-                    throw new DNSFault($response, $statusCode);
+                    throw new DnsFault($response, $statusCode);
                     break;
             }
         }

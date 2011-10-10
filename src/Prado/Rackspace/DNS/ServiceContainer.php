@@ -12,7 +12,7 @@ use Prado\Rackspace\DNS\Http\CurlApiClient;
 use Prado\Rackspace\DNS\Http\CurlAuthenticator;
 use Prado\Rackspace\DNS\Storage\NullStorageAdapter;
 
-class ServiceContainer implements CloudDNSService
+class ServiceContainer implements CloudDnsService
 {
     protected static $shared = array();
     
