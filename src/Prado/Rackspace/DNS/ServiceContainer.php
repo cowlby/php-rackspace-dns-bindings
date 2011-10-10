@@ -2,7 +2,7 @@
 
 namespace Prado\Rackspace\DNS;
 
-use Prado\Rackspace\DNS\CloudDNSService;
+use Prado\Rackspace\DNS\CloudDnsService;
 use Prado\Rackspace\DNS\Entity\Domain;
 use Prado\Rackspace\DNS\EntityManager\AsynchResponseManager;
 use Prado\Rackspace\DNS\EntityManager\DomainManager;
