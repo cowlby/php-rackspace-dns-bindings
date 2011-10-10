@@ -4,6 +4,6 @@ namespace Prado\Rackspace\DNS\Fault;
 
 use Prado\Rackspace\DNS\CloudDNSFault;
 
-class DnsFault extends \RuntimeException implements CloudDnsFault
+class OverLimitFault extends \RuntimeException implements CloudDnsFault
 {
 }
