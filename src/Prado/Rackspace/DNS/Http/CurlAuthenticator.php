@@ -111,7 +111,8 @@ class CurlAuthenticator implements Authenticator
             CURLOPT_RETURNTRANSFER => TRUE,
             CURLOPT_SSL_VERIFYPEER => TRUE,
             CURLOPT_SSL_VERIFYHOST => 2,
-            CURLOPT_CAINFO => __DIR__.'/ca.pem',
+            CURLOPT_CAINFO => __DIR__.'/auth.pem',
+            CURLOPT_ENCODING => 'gzip,deflate',
             CURLOPT_HEADERFUNCTION => array($this, 'parseAuthHeaders'),
             CURLOPT_HTTPHEADER => $headers
         );
