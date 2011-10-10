@@ -57,7 +57,7 @@ class AsynchResponseManager implements EntityManager
     {
         $data = $this->_api->get(sprintf('/status/%s?showDetails=true', $id));
         
-        $entity = new AsynchResponse();
+        $entity = new AsynchResponse;
         $this->_hydrator->hydrateEntity($entity, $data);
         
         return $entity;
@@ -70,7 +70,7 @@ class AsynchResponseManager implements EntityManager
         $list = new AsynchResponseList;
         foreach ($data['asyncResponses'] as $asyncResponse) {
             
-            $entity = new AsynchResponse();
+            $entity = new AsynchResponse;
             $this->_hydrator->hydrateEntity($entity, $asyncResponse);
             $list->addEntity($entity);
         }
