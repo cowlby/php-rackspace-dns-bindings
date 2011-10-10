@@ -1,9 +1,9 @@
 <?php
 
-namespace Prado\Tests\Rackspace\DNS;
+namespace Prado\Tests\Rackspace\DNS\EntityManager;
 
 use ReflectionMethod;
-use Prado\Rackspace\DNS\Hydrator;
+use Prado\Rackspace\DNS\EntityManager\Hydrator;
 
 /**
  * Hydrator test case.
@@ -33,8 +33,8 @@ class HydratorTest extends \PHPUnit_Framework_TestCase
     
     public function testHydrateEntityWorksWithOneField()
     {
-        $methods = array('setProp1');
-        $entity  = $this->getMock('Prado\Rackspace\DNS\Model\Entity', $methods);
+        $methods = array('getId', 'setProp1');
+        $entity  = $this->getMock('Prado\Rackspace\DNS\Entity', $methods);
             
         $entity->expects($this->once())
             ->method('setProp1')
@@ -46,8 +46,8 @@ class HydratorTest extends \PHPUnit_Framework_TestCase
     
     public function testHydrateEntityWorksWithMultipleFields()
     {
-        $methods = array('setProp1', 'setProp2');
-        $entity  = $this->getMock('Prado\Rackspace\DNS\Model\Entity', $methods);
+        $methods = array('getId', 'setProp1', 'setProp2');
+        $entity  = $this->getMock('Prado\Rackspace\DNS\Entity', $methods);
             
         $entity->expects($this->once())
             ->method('setProp1')
@@ -63,8 +63,8 @@ class HydratorTest extends \PHPUnit_Framework_TestCase
     
     public function testHydrateEntityWorksWithNoFields()
     {
-        $methods = array();
-        $entity  = $this->getMock('Prado\Rackspace\DNS\Model\Entity', $methods);
+        $methods = array('getId');
+        $entity  = $this->getMock('Prado\Rackspace\DNS\Entity', $methods);
         
         $json = array();
         $hydratedEntity = $this->hydrator->hydrateEntity($entity, $json);
@@ -72,8 +72,8 @@ class HydratorTest extends \PHPUnit_Framework_TestCase
     
     public function testHydrateEntityWorksWithDifferentJsonFields()
     {
-        $methods = array('setProp1', 'setProp2');
-        $entity  = $this->getMock('Prado\Rackspace\DNS\Model\Entity', $methods);
+        $methods = array('getId', 'setProp1', 'setProp2');
+        $entity  = $this->getMock('Prado\Rackspace\DNS\Entity', $methods);
             
         $entity->expects($this->never())
             ->method('setProp1');
