@@ -8,11 +8,11 @@ use RuntimeException;
 class CloudDnsFault extends RuntimeException implements CloudDnsException
 {
     public static $faults = array(
-        400 => 'Prado\Rackspace\DNS\Exception\BadRequestFault',
-        401 => 'Prado\Rackspace\DNS\Exception\UnauthorizedFault',
-        404 => 'Prado\Rackspace\DNS\Exception\ItemNotFoundFault',
-        409 => 'Prado\Rackspace\DNS\Exception\OverLimitFault',
-        500 => 'Prado\Rackspace\DNS\Exception\CloudDnsFault'
+        '400' => 'Prado\Rackspace\DNS\Exception\BadRequestFault',
+        '401' => 'Prado\Rackspace\DNS\Exception\UnauthorizedFault',
+        '404' => 'Prado\Rackspace\DNS\Exception\ItemNotFoundFault',
+        '409' => 'Prado\Rackspace\DNS\Exception\OverLimitFault',
+        '500' => 'Prado\Rackspace\DNS\Exception\CloudDnsFault'
     );
     
     public function __construct($statusCode, $response = NULL, Exception $previous = NULL)
