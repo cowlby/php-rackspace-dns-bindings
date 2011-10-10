@@ -76,9 +76,15 @@ class RecordManager implements EntityManager
     {
         $data = $this->_api->get(sprintf('/domains/%s/records', $this->_domain->getId()));
         
-        $entity = new Record;
-        $this->_hydrator->hydrateEntity($entity, $data);
         
-        return $entity;
+        $list = new RecordList;
+        foreach ($data['records'] as $record) {
+            
+            $entity = new Record;
+            $this->_hydrator->hydrateEntity($entity, $record);
+            $list->addEntity($entity);
+        }
+        
+        return $list;
     }
 }
