@@ -3,13 +3,14 @@
 namespace Prado\Rackspace\DNS\EntityManager;
 
 use DateTime;
-use Prado\Rackspace\DNS\Http\RestInterface;
+use Prado\Rackspace\DNS\Entity;
+use Prado\Rackspace\DNS\EntityManager;
 use Prado\Rackspace\DNS\Entity\AsynchResponse;
 use Prado\Rackspace\DNS\Entity\Domain;
 use Prado\Rackspace\DNS\Entity\DomainList;
 use Prado\Rackspace\DNS\Entity\Record;
-use Prado\Rackspace\DNS\Entity;
-use Prado\Rackspace\DNS\EntityManager;
+use Prado\Rackspace\DNS\Http\RestInterface;
+use Prado\Rackspace\DNS\Exception\ItemNotFoundFault;
 
 class DomainManager implements EntityManager
 {
@@ -79,7 +80,11 @@ class DomainManager implements EntityManager
     
     public function find($id)
     {
-        $data = $this->_api->get(sprintf('/domains/%s', $id));
+        try {
+            $data = $this->_api->get(sprintf('/domains/%s', $id));
+        } catch (ItemNotFoundFault $fault) {
+            return NULL;
+        }
         
         $entity = new Domain();
         $this->_hydrator->hydrateEntity($entity, $data);
