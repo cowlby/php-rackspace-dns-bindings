@@ -35,17 +35,17 @@ class AsynchResponseManager implements EntityManager
     
     public function create(Entity $entity)
     {
-        throw new BadMethodCallException('Create method not supported on AsynchResponse');
+        throw new BadMethodCallException('Create method not supported on AsynchResponse.');
     }
     
     public function remove(Entity $entity)
     {
-        throw new BadMethodCallException('Remove method not supported on AsynchResponse');
+        throw new BadMethodCallException('Remove method not supported on AsynchResponse.');
     }
     
     public function update(Entity $entity)
     {
-        throw new BadMethodCallException('Update method not supported on AsynchResponse');
+        throw new BadMethodCallException('Update method not supported on AsynchResponse.');
     }
     
     public function refresh(Entity $entity)
