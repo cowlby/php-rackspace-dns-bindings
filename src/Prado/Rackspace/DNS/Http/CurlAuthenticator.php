@@ -2,9 +2,8 @@
 
 namespace Prado\Rackspace\DNS\Http;
 
-use Prado\Rackspace\DNS\Fault\DNSFault;
-
-use Prado\Rackspace\DNS\Fault\UnauthorizedFault;
+use Prado\Rackspace\DNS\Exception\CurlException;
+use Prado\Rackspace\DNS\Exception\CloudDnsFault;
 use Prado\Rackspace\DNS\Storage\StorageInterface;
 
 class CurlAuthenticator implements Authenticator
@@ -115,25 +114,18 @@ class CurlAuthenticator implements Authenticator
         
         $response = curl_exec($ch);
         
-        if (curl_errno($ch) !== 0) {
-            die(curl_error($ch));
+        if (0 !== $errno = curl_errno($ch)) {
+            throw new CurlException(curl_error($ch), $errno);
         }
         
         $statusCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-        curl_close($ch);
         
+        // Throw appropriate CloudDnsFault if non-200s status code.
         if ($statusCode < 200 || $statusCode >= 300) {
-            switch ($statusCode) {
-                
-                case 401:
-                    throw new UnauthorizedFault($response, 401);
-                    break;
-                    
-                default:
-                    throw new DnsFault($response, $statusCode);
-                    break;
-            }
+            throw CloudDnsFault::createException($statusCode, $response);
         }
+        
+        curl_close($ch);
         
         $this->fullyAuthenticated = TRUE;
     }
