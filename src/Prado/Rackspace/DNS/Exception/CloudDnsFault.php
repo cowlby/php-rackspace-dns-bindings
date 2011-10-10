@@ -15,7 +15,7 @@ class CloudDnsFault extends RuntimeException implements CloudDnsException
         '500' => 'Prado\Rackspace\DNS\Exception\CloudDnsFault'
     );
     
-    public function __construct($statusCode, $response = NULL, Exception $previous = NULL)
+    public function __construct($statusCode = 500, $response = NULL, Exception $previous = NULL)
     {
         parent::__construct($response, $statusCode, $previous);
     }
