@@ -91,7 +91,7 @@ class CurlApiClient implements RestInterface
      * @param string $path    The path to create the handle for
      * @param array  $headers Optional array of additional headers to send
      */
-    protected function createCurlHandle($path, array $headers)
+    protected function createCurlHandle($path, array $headers = array())
     {
         $ch = curl_init();
         
@@ -104,7 +104,9 @@ class CurlApiClient implements RestInterface
             CURLOPT_URL => $this->getServiceEndpoint() . $path,
             CURLOPT_TIMEOUT => self::TIMEOUT,
             CURLOPT_RETURNTRANSFER => TRUE,
-            CURLOPT_SSL_VERIFYPEER => FALSE,
+            CURLOPT_SSL_VERIFYPEER => TRUE,
+            CURLOPT_SSL_VERIFYHOST => 2,
+            CURLOPT_CAINFO => __DIR__.'/api.pem',
             CURLOPT_ENCODING => 'gzip,deflate',
             CURLOPT_HTTPHEADER => $headers
         );
