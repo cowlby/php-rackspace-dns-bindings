@@ -3,6 +3,7 @@
 namespace Prado\Rackspace\DNS\Http;
 
 use Prado\Rackspace\DNS\Exception\CurlException;
+use Prado\Rackspace\DNS\Exception\CloudDnsFault;
 
 class CurlApiClient implements RestInterface
 {
