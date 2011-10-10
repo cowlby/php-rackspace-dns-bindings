@@ -51,6 +51,14 @@ class AsynchResponse implements Entity
         
     }
     
+    /**
+     * @see Prado\Rackspace\DNS.Entity::getId()
+     */
+    public function getId()
+    {
+        return $this->getJobId();
+    }
+    
 	/**
      * @return the $jobId
      */
