@@ -8,10 +8,17 @@ use Prado\Rackspace\DNS\Storage\StorageInterface;
 
 class CurlAuthenticator implements Authenticator
 {
+    const AUTH_ENDPOINT_US = 'https://auth.api.rackspacecloud.com/v1.1';
+    const AUTH_ENDPOINT_UK = 'https://lon.auth.api.rackspacecloud.com/v1.1';
+    
+    const SERVICE_ENDPOINT_US = 'https://dns.api.rackspacecloud.com/v1.0';
+    const SERVICE_ENDPOINT_UK = 'https://lon.dns.api.rackspacecloud.com/v1.0';
+    
+    const CONTENT_TYPE    = 'application/json';
+    const RESPONSE_FORMAT = 'application/json';
+    
     const KEY_AUTH_TOKEN = 'rs_dns.auth_token';
     const KEY_ACCOUNT_ID = 'rs_dns.account_id';
-    
-    const AUTH_ENDPOINT_US = 'https://auth.api.rackspacecloud.com/v1.0';
     
     protected $username;
     
@@ -23,13 +30,13 @@ class CurlAuthenticator implements Authenticator
     
     protected $fullyAuthenticated;
     
-    protected $_storage;
+    protected $storage;
     
     public function __construct($username, $apiKey, StorageInterface $storage)
     {
         $this->username = $username;
         $this->apiKey   = $apiKey;
-        $this->_storage = $storage;
+        $this->storage = $storage;
         $this->fullyAuthenticated = FALSE;
     }
     
@@ -38,7 +45,7 @@ class CurlAuthenticator implements Authenticator
         $authToken = $this->authToken;
         
         if (NULL === $authToken) {
-            $authToken = $this->_storage->retrieve($this->getAuthTokenKey());
+            $authToken = $this->storage->retrieve($this->getAuthTokenKey());
         }
         
         if (NULL === $authToken) {
@@ -54,7 +61,7 @@ class CurlAuthenticator implements Authenticator
         $accountId = $this->accountId;
         
         if (NULL === $accountId) {
-            $accountId = $this->_storage->retrieve($this->getAccountIdKey());
+            $accountId = $this->storage->retrieve($this->getAccountIdKey());
         }
         
         if (NULL === $accountId) {
@@ -67,13 +74,13 @@ class CurlAuthenticator implements Authenticator
 
     public function setAuthToken($authToken)
     {
-        $this->_storage->store($this->getAuthTokenKey(), $authToken);
+        $this->storage->store($this->getAuthTokenKey(), $authToken);
         $this->authToken = $authToken;
     }
     
     public function setAccountId($accountId)
     {
-        $this->_storage->store($this->getAccountIdKey(), $accountId);
+        $this->storage->store($this->getAccountIdKey(), $accountId);
         $this->accountId = $accountId;
     }
     
@@ -100,66 +107,31 @@ class CurlAuthenticator implements Authenticator
      */
     public function authenticate()
     {
-        $ch = curl_init(self::AUTH_ENDPOINT_US);
+        $api = new \Buzz\Browser;
         
-        $headers = array(
-        	'X-Auth-User: ' . $this->username,
-        	'X-Auth-Key: ' . $this->apiKey
-        );
+        $response = $api->post(self::AUTH_ENDPOINT_US.'/auth', array(
+            'Content-Type: application/json',
+            'Accept: application/json'
+        ), json_encode(array(
+            'credentials' => array(
+                'username' => $this->username,
+                'key' => $this->apiKey
+            )
+        )));
         
-        $options = array(
-            CURLOPT_RETURNTRANSFER => TRUE,
-            CURLOPT_SSL_VERIFYPEER => TRUE,
-            CURLOPT_SSL_VERIFYHOST => 2,
-            CURLOPT_CAINFO => __DIR__.'/auth.pem',
-            CURLOPT_ENCODING => 'gzip,deflate',
-            CURLOPT_HEADERFUNCTION => array($this, 'parseAuthHeaders'),
-            CURLOPT_HTTPHEADER => $headers
-        );
-        
-        curl_setopt_array($ch, $options);
-        
-        $response = curl_exec($ch);
-        
-        if (0 !== $errno = curl_errno($ch)) {
-            throw new CurlException(curl_error($ch), $errno);
+        if (200 !== $statusCode = $response->getStatusCode()) {
+            // Auth Exception.
+            die;
         }
         
-        $statusCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+        $data = json_decode($response->getContent(), TRUE);
+        echo "<pre>";
+        print_r($data);
+        die;
         
-        // Throw appropriate CloudDnsFault if non-200s status code.
-        if ($statusCode < 200 || $statusCode >= 300) {
-            throw CloudDnsFault::createException($statusCode, $response);
-        }
-        
-        curl_close($ch);
+        $this->setAuthToken($data['auth']['token']['id']);
+        $this->setAccountId($accountId);
         
         $this->fullyAuthenticated = TRUE;
-    }
-    
-    protected function parseAuthHeaders($ch, $header)
-    {
-        $matched = preg_match('/X-(Auth-Token|Server-Management-Url): (.*)/', $header, $matches);
-        
-        if ($matched !== 0) {
-            switch ($matches[1]) {
-                
-                case 'Auth-Token':
-                    $authToken = $matches[2];
-                    $this->setAuthToken(trim($authToken));
-                    break;
-                    
-                case 'Server-Management-Url':
-                    $serverUrl = $matches[2];
-                    $accountId = substr($serverUrl, strrpos($serverUrl, '/') + 1);
-                    $this->setAccountId(trim($accountId));
-                    break;
-                    
-                default:
-                    break;
-            }
-        }
-        
-        return strlen($header);
     }
 }
