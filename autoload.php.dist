@@ -7,6 +7,6 @@ use Symfony\Component\ClassLoader\UniversalClassLoader;
 $loader = new UniversalClassLoader;
 $loader->registerNamespaces(array(
     'Prado' => __DIR__.'/src',
-    'Zend'  => __DIR__.'/vendor/zf2/library'
+    'Buzz' => __DIR__.'/vendor/Buzz/lib'
 ));
 $loader->register();

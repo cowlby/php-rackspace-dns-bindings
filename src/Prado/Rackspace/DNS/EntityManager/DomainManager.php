@@ -7,7 +7,6 @@ use Prado\Rackspace\DNS\Entity;
 use Prado\Rackspace\DNS\EntityManager;
 use Prado\Rackspace\DNS\Entity\AsynchResponse;
 use Prado\Rackspace\DNS\Entity\Domain;
-use Prado\Rackspace\DNS\Entity\DomainList;
 use Prado\Rackspace\DNS\Entity\Record;
 use Prado\Rackspace\DNS\Http\RestInterface;
 use Prado\Rackspace\DNS\Exception\ItemNotFoundFault;
@@ -17,25 +16,28 @@ class DomainManager implements EntityManager
     /**
      * @var Prado\Rackspace\DNS\Http\RestInterface
      */
-    protected $_api;
+    protected $api;
     
     /**
-     * @var Prado\Rackspace\DNS\Hydrator
+     * @var Prado\Rackspace\DNS\EntityManager\Hydrator
      */
-    protected $_hydrator;
+    protected $hydrator;
     
     /**
      * Constructor.
      * 
-     * @param Prado\Rackspace\Http\RestInterface $api
-     * @param Prado\Rackspace\DNS\Hydrator       $hydrator
+     * @param Prado\Rackspace\Http\RestInterface         $api
+     * @param Prado\Rackspace\DNS\EntityManager\Hydrator $hydrator
      */
     public function __construct(RestInterface $api, Hydrator $hydrator)
     {
-        $this->_api = $api;
-        $this->_hydrator = $hydrator;
+        $this->api = $api;
+        $this->hydrator = $hydrator;
     }
     
+    /**
+     * @see Prado\Rackspace\DNS.EntityManager::create()
+     */
     public function create(Entity $entity)
     {
         $object = array();
@@ -46,12 +48,12 @@ class DomainManager implements EntityManager
             }
         }
         
-        $data = $this->_api->post('/domains', array(
+        $data = $this->api->post('/domains', array(
         	'domains' => array($object)
         ));
         
         $asynchResponse = new AsynchResponse;
-        $this->_hydrator->hydrateEntity($asynchResponse, $data);
+        $this->hydrator->hydrateEntity($asynchResponse, $data);
         
         return $asynchResponse;
     }
@@ -62,10 +64,10 @@ class DomainManager implements EntityManager
             throw new \InvalidArgumentException('Must set the ID of the domain you want to remove.');
         }
         
-        $data = $this->_api->delete(sprintf('/domains/%s', $entity->getId()));
+        $data = $this->api->delete(sprintf('/domains/%s', $entity->getId()));
         
         $asynchResponse = new AsynchResponse;
-        $this->_hydrator->hydrateEntity($asynchResponse, $data);
+        $this->hydrator->hydrateEntity($asynchResponse, $data);
         
         return $asynchResponse;
     }
@@ -78,25 +80,46 @@ class DomainManager implements EntityManager
     {
     }
     
+    /**
+     * @see Prado\Rackspace\DNS.EntityManager::find()
+     */
     public function find($id)
     {
         try {
-            $data = $this->_api->get(sprintf('/domains/%s', $id));
+            $data = $this->api->get(sprintf('/domains/%s', $id));
         } catch (ItemNotFoundFault $fault) {
             return NULL;
         }
         
         $entity = new Domain();
-        $this->_hydrator->hydrateEntity($entity, $data);
+        $this->hydrator->hydrateEntity($entity, $data);
         
         foreach ($data['recordsList']['records'] as $jsonRecord) {
             
             $record = new Record();
-            $this->_hydrator->hydrateEntity($record, $jsonRecord);
+            $this->hydrator->hydrateEntity($record, $jsonRecord);
             $entity->addRecord($record);
         }
         
         return $entity;
+    }
+    
+    /**
+     * @see Prado\Rackspace\DNS.EntityManager::findAll()
+     */
+    public function findAll()
+    {
+        $data = $this->api->get('/domains');
+        
+        $list = array();
+        foreach ($data['domains'] as $domain) {
+            
+            $entity = new Domain();
+            $this->hydrator->hydrateEntity($entity, $domain);
+            $list[] = $entity;
+        }
+        
+        return $list;
     }
     
     public function import(Domain $domain)
@@ -109,38 +132,23 @@ class DomainManager implements EntityManager
             }
         }
         
-        $data = $this->_api->post('/domains/import', array(
+        $data = $this->api->post('/domains/import', array(
         	'domains' => array($object)
         ));
         
         $asynchResponse = new AsynchResponse;
-        $this->_hydrator->hydrateEntity($asynchResponse, $data);
+        $this->hydrator->hydrateEntity($asynchResponse, $data);
         
         return $asynchResponse;
     }
     
     public function export(Domain $domain)
     {
-        $data = $this->_api->get(sprintf('/domains/%s/export', $domain->getId()));
+        $data = $this->api->get(sprintf('/domains/%s/export', $domain->getId()));
         
         $asynchResponse = new AsynchResponse;
-        $this->_hydrator->hydrateEntity($asynchResponse, $data);
+        $this->hydrator->hydrateEntity($asynchResponse, $data);
         
         return $asynchResponse;
-    }
-    
-    public function createList()
-    {
-        $data = $this->_api->get('/domains');
-        
-        $list = new DomainList();
-        foreach ($data['domains'] as $jsonDomain) {
-            
-            $entity = new Domain();
-            $this->_hydrator->hydrateEntity($entity, $jsonDomain);
-            $list->addEntity($entity);
-        }
-        
-        return $list;
     }
 }

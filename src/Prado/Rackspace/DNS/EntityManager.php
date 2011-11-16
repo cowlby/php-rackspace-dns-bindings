@@ -46,7 +46,7 @@ interface EntityManager
     /**
      * Creates a list of records for the given Entity type.
      * 
-     * @return Prado\Rackspace\DNS\EntityList The Entity list.
+     * @return array
      */
-    public function createList();
+    public function findAll();
 }

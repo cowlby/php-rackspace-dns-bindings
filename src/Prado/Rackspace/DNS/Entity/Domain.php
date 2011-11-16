@@ -58,13 +58,13 @@ class Domain implements Entity
     protected $created;
     
     /**
-     * @var Prado\Rackspace\DNS\Entity\RecordList
+     * @var array
      */
     protected $records;
     
     public function __construct()
     {
-        $this->records = new RecordList();
+        $this->records = array();
     }
     
 	/**
@@ -148,7 +148,7 @@ class Domain implements Entity
     }
 
 	/**
-     * @return the $records
+     * @return array
      */
     public function getRecords()
     {
@@ -235,8 +235,11 @@ class Domain implements Entity
         $this->created = $created;
     }
     
+    /**
+     * @param Record $record
+     */
     public function addRecord(Record $record)
     {
-        $this->records->addEntity($record);
+        $this->records[] = $record;
     }
 }
