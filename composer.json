@@ -1,0 +1,12 @@
+{
+    "name": "pradador/php-rackspace-dns-bindings",
+    "authors": [
+        {
+            "name": "Jose Prado",
+            "email": "pradador@me.com"
+        }
+    ],
+    "require": {
+
+    }
+}
