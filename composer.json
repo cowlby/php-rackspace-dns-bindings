@@ -7,6 +7,7 @@
         }
     ],
     "require": {
+        "kriswallsmith/buzz": "v0.7"
 
     }
 }
