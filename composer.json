@@ -7,7 +7,13 @@
         }
     ],
     "require": {
-        "kriswallsmith/buzz": "v0.7"
-
+        "kriswallsmith/buzz": "v0.7",
+        "guzzle/guzzle": "*",
+        "pimple/pimple": "dev-master"
+    },
+    "autoload" : {
+        "psr-0": {
+            "Prado": "src/"
+        }
     }
 }

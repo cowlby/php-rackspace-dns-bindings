@@ -1,9 +1,29 @@
 {
-    "hash": "2b02ea6c60a20ef37551b14ece43aca8",
+    "hash": "841a6a1487643be520fda10676fd8941",
     "packages": [
+        {
+            "package": "guzzle/guzzle",
+            "version": "v2.7.2"
+        },
         {
             "package": "kriswallsmith/buzz",
             "version": "v0.7"
+        },
+        {
+            "package": "pimple/pimple",
+            "version": "dev-master",
+            "alias-pretty-version": "1.0.x-dev",
+            "alias-version": "1.0.9999999.9999999-dev"
+        },
+        {
+            "package": "pimple/pimple",
+            "version": "dev-master",
+            "source-reference": "d2cfa2f02f50abef65c238747c753a5f6786f6be",
+            "commit-date": "1341139100"
+        },
+        {
+            "package": "symfony/event-dispatcher",
+            "version": "v2.0.15"
         }
     ],
     "packages-dev": null,
@@ -11,7 +31,7 @@
 
     ],
     "minimum-stability": "stable",
-    "stability-flags": [
-
-    ]
+    "stability-flags": {
+        "pimple/pimple": 20
+    }
 }
